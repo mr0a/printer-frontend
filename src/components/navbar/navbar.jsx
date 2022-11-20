@@ -2,11 +2,12 @@ import './navbar.css'
 import { Link } from 'react-router-dom';
 import { useContext } from 'react'
 import { userDetailsContext } from '../../state/UserDetailsProvider'
+import UserMenu from '../user_menu/UserMenu';
 
 
 function Navbar() {
 
-    const { userDetails, setUserDetails, isAuthenticated } = useContext(userDetailsContext);
+    const { userDetails, isAuthenticated } = useContext(userDetailsContext);
 
     console.log(userDetails);
     console.log(`User logged in ${isAuthenticated}`);
@@ -35,21 +36,22 @@ function Navbar() {
 
     return (
         <nav>
-            <div className="grid grid-cols-3 justify-items-center items-center">
+            <div className="grid grid-cols-2 justify-items-center items-center">
                 <img src="./logo.png" alt="Easyq Logo" className="logo justify-self-start"></img>
-                <div className='grid gap-6 grid-cols-4 grid-rows-1 nav-menu justify-items-center'>
+                <div className='grid grid-cols-3 grid-rows-1 nav-menu justify-items-center items-center'>
                     <Link to="/files">
                         Files
                     </Link>
                     <Link to="/orders">
                         Orders
                     </Link>
-                </div>
-                <Link to="/signup">
                     <div className='justify-self-end'>
-                        <p className='sign-up-btn border-solid border-2 rounded-lg'>Sign Up</p>
+                        {/* <p className='sign-up-btn border-solid border-2 rounded-lg'>{userDetails.name}</p> */}
+                        <UserMenu username={userDetails.name} credits={userDetails.credits} />
                     </div>
-                </Link>
+                </div>
+                {/* <Link to="/signup"> */}
+                {/* </Link> */}
             </div>
 
         </nav>
