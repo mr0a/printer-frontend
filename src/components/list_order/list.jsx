@@ -1,6 +1,8 @@
 import React from "react-dom";
 import "./listorder.css";
 import Orders from "./orders";
+import {PrinterIcon,TrashIcon,InformationCircleIcon } from '@heroicons/react/20/solid'
+
 function List() {
     const id = ['AG0001', 'AG0002', 'AG0003'];
     const cost = [50,30,5];
@@ -25,7 +27,13 @@ function List() {
   }, ${current.getFullYear()}`;
 
   return (
-    <div className="list">
+    <div className="list-order">
+      <div className="list">
+          <div className="icons">
+              <div className="align"><PrinterIcon /></div>
+              <div className="align"><TrashIcon /></div>
+              <div className="align"><InformationCircleIcon/></div>
+          </div>
       <b>
         <div className="heading">
           <p>Order ID</p>
@@ -40,7 +48,8 @@ function List() {
         <Orders id={id[2]} date={date} price={cost[2]} status={status[1]}></Orders>
 
       </div>
-    </div>
+      </div>
+      </div>
   );
 }
 

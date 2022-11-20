@@ -1,7 +1,11 @@
+.list-order{
+    padding:5rem 5rem 5rem 5rem;
+}
 .list{
-    padding-left: 7rem;
-    padding-right: 7rem;
-    padding-top: 5rem;
+    padding:1rem 5rem 5rem 5rem;
+    border-color:black;
+    border-radius: 2rem;
+    border-width: 0.10rem;
 }
 .heading{
     display:flex;
@@ -35,4 +39,23 @@
     border-bottom: 2px solid black;
     /* box-sizing: border-box; */
     padding: 1rem;
+}
+
+.icons{
+    margin-left: auto;
+    display:flex;
+    align-items:center;
+    flex-direction: row;
+    justify-content:space-between;
+    width:10rem;
+    padding: 1rem;
+}
+
+.align{
+    display:flex;
+    align-items:center;
+    flex-direction: row;
+    justify-content:space-between;
+    width:20rem;
+    padding: 0 1rem 0 0;
 }
