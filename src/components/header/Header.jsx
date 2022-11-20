@@ -2,6 +2,7 @@ import './header.css'
 import { Link } from 'react-router-dom'
 
 export default function Header() {
+
     return (
         <header className="mt-12">
             <div className="grid grid-cols-2 header-box items-center">
