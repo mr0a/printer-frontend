@@ -1,0 +1,45 @@
+.bold {
+    font-weight: bold;
+}
+
+
+.file-list{
+    list-style: none;
+    padding: 0;
+}
+
+.file{
+    border-bottom: 1px solid rgb(95,99,104);
+    display: flex;
+    justify-content: space-around;
+}
+
+.file-header{
+    border-top: 1px solid rgb(95,99,104);
+    border-bottom: 1px solid rgb(95,99,104);
+    display: flex;
+    justify-content: space-around;
+}
+
+.file:hover {
+    background-color: rgb(218,220,224);
+    /* background-color: rgb(232,240,254); */
+}
+
+.selected {
+    background-color: rgb(232,240,254);
+}
+
+.selected:hover {
+    background-color: rgb(232,240,254);
+}
+
+.options{
+    display: flex;
+    justify-content: end;
+    margin: 1rem 11rem 1rem 0;
+}
+
+.options > * {
+    margin-left: 2rem;
+}

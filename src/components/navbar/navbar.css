@@ -1,0 +1,24 @@
+.logo {
+    max-width: 13.375rem;
+}
+
+.nav-menu {
+    /* margin-left: 6.25rem; */
+    color: #023047;
+    font-weight: bold;
+    font-size: 1.125rem;
+}
+
+.sign-up-btn {
+    color: #E63946;
+    font-weight: bolder;
+    font-size: 1.125rem;
+    padding: 0.75rem 1.875rem;
+    border-color: rgba(0,0,0, 0.3);
+}
+
+.sign-up-btn:hover {
+    color: #fff;
+    background-color: #E63946;
+    border-color: rgba(0,0,0, 0.3);
+}
