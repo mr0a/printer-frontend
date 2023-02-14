@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Listbox, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { cartContext } from '../../state/cartProvider'
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -72,23 +74,28 @@ function SizeSelector({ sizes = ['A3', 'A4', 'A5'] }) {
     )
 }
 
-function FilePrintProperties({ file }) {
+function FilePrintProperties({ file_id }) {
+
+    const {files} = useContext(cartContext);
+    let file = files.find(file => file.id === file_id)
 
     const [copies, setCopies] = useState(1);
-    const [pages, setPages] = useState(copies * 5);
+    const [pages, setPages] = useState(file.page_count);
+    const [price, setPrice] = useState(pages*copies);
 
     function handleChange(event) {
-        setPages((pages/copies) * event.target.value)
-        setCopies(event.target.value)
+        let copy_count = event.target.value
+        setCopies(copy_count);
+        setPrice(pages * copy_count)
     }
 
     return (
         <div className='grid grid-cols-5 justify-items-center items-center font-bold p-3 text-lg border-b-2'>
-            <p>{file}</p>
+            <p>{file.file_name}</p>
             <input className="border rounded w-32" type="number" value={copies} min={1} onChange={handleChange} />
             <SizeSelector sizes={['A3', 'A4', 'A5']} />
             <input disabled className="border rounded w-32" type="number" min={1} value={pages} />
-            <input disabled className="border rounded w-32" type="number" min={1} value={pages} />
+            <input disabled className="border rounded w-32" type="number" min={1} value={price} />
         </div>
     )
 }

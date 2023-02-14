@@ -6,19 +6,19 @@ import { cartContext } from "../../state/cartProvider";
 import { useNavigate } from "react-router-dom";
 
 
-function FileList({fileHandle}) {
+function FileList({files, fileHandle}) {
 
-    const { cart, setCart, files, setFiles } = useContext(cartContext);
+    const { cart, setCart, setFiles } = useContext(cartContext);
 
     const navigate = useNavigate();
 
-    let fileComponent = files.map((file, idx) => (
+    let fileComponent = files?.map((file, idx) => (
         <File key={idx} file={file} selectedFiles={cart} setSelectedFiles={setCart} />
     )
     )
 
     function deleteHandler() {
-        if (cart.length === files.length) {
+        if (cart.length === files?.length) {
             setFiles([]);
             setCart([]);
         }
@@ -32,7 +32,7 @@ function FileList({fileHandle}) {
         navigate('/orders/new')
     }
 
-    if (!files.length) {
+    if (!files?.length) {
         return (
             <div className="flex justify-center">
                 <p className="text-xl font-bold">No files found! Add some files to proceed!</p>

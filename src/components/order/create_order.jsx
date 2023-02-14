@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import { cartContext } from "../../state/cartProvider";
+import { userDetailsContext } from '../../state/UserDetailsProvider'
 import { useNavigate } from "react-router-dom";
 import FilePrintProperties from "./file_properties";
 
@@ -103,8 +104,9 @@ function SelectRepo() {
 
 function NewOrderCheckout() {
 
-    const { cart, setCart } = useContext(cartContext);
-    const [useCredits, setUseCredits] = useState(true);
+    const { cart } = useContext(cartContext);
+    const { userDetails } = useContext(userDetailsContext);
+    const [useCredits, setUseCredits] = useState(userDetails.credits !== 0);
     const navigate = useNavigate();
 
     console.log(cart);
@@ -115,8 +117,11 @@ function NewOrderCheckout() {
         }
     })
 
-    let filePropertiesSelector = cart.map(file => <FilePrintProperties key={file} file={file} />)
+    let filePropertiesSelector = cart.map(id => <FilePrintProperties key={id} file_id={id} />)
 
+    function handleContinue(){
+        navigate('/orders')
+    }
 
 
     return (
@@ -128,10 +133,13 @@ function NewOrderCheckout() {
                     <SelectRepo />
                 </div>
                 <div className="flex items-center">
-                    <input type="checkbox" className="w-5 mx-2" checked={useCredits} onChange={() => setUseCredits(!useCredits)} />
-                    <span>Use Credits</span>
+                    <input type="checkbox" checked={useCredits} disabled={userDetails.credits === 0} className="w-5 mx-4" onChange={() => setUseCredits(!useCredits)} />
+                    <div className="grid">
+                        <span>Use Credits</span>
+                        <span>Available: {userDetails.credits}</span>
+                    </div>
                 </div>
-                <button className="bg-blue-500 w-fit hover:bg-blue-700 text-white font-bold py-2 px-4 rounded justify-self-end">
+                <button className="bg-blue-500 w-fit hover:bg-blue-700 text-white font-bold py-2 px-4 rounded justify-self-end" onClick={handleContinue}>
                     Continue
                 </button>
             </div>
