@@ -7,7 +7,7 @@ import Login from './components/login/login';
 import Signup from './components/signup/signup';
 import UserFiles from './components/user_files/UserFiles';
 import UserDetailsProvider from './state/UserDetailsProvider';
-
+import List from './components/list_order/list.jsx';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -29,6 +29,10 @@ const router = createBrowserRouter([
         path: "/files",
         element: <UserFiles />
       },
+      {
+        path: "/orders",
+        element: <List />
+      }
     ],
   },
   {

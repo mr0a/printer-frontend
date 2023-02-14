@@ -39,10 +39,11 @@ function Navbar() {
                 <img src="./logo.png" alt="Easyq Logo" className="logo justify-self-start"></img>
                 <div className='grid gap-6 grid-cols-4 grid-rows-1 nav-menu justify-items-center'>
                     <Link to="/files">
-                        files
+                        Files
                     </Link>
-                    <p>Files</p>
-                    <p>Orders</p>
+                    <Link to="/orders">
+                        Orders
+                    </Link>
                 </div>
                 <Link to="/signup">
                     <div className='justify-self-end'>
