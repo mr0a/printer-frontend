@@ -46,7 +46,7 @@ function Navbar() {
                         Orders
                     </Link>
                     <div className='justify-self-end'>
-                        <UserMenu className="" username={userDetails.name} credits={userDetails.credits} />
+                        <UserMenu username={userDetails.username} credits={userDetails.credits} />
                     </div>
                 </div>
             </div>

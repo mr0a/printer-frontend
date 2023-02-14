@@ -1,16 +1,47 @@
+import { useState } from 'react';
+import { NotificationManager } from 'react-notifications';
 import { Link, useNavigate } from 'react-router-dom';
 import './signup.css';
+
+let BASE_URL = "http://127.0.0.1:8000"
 
 
 export default function Signup() {
 
     const navigate = useNavigate();
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     function handleSignup() {
-        console.log("Click")
-        // event.preventDefault();
+
+        let userData = {
+            username, email, password
+        };
+
+        console.log(userData)
+
+        fetch(BASE_URL + '/api/v1/auth/user', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData),
+            mode: 'cors',
+        })
+            .then(response => response.json().then(data => {
+                if (response.ok) {
+                    NotificationManager.success('Welcome to Easyq! Now you can login', 'Successful!', 3000);
+                    navigate("/login");
+                }
+            }))
+            .catch(error => {
+                console.log(error)
+                NotificationManager.error("Error while signing up", "Failed", 3000);
+                return;
+            })
         // Create User and show dialog
-        navigate("/login")
     }
 
 
@@ -26,8 +57,9 @@ export default function Signup() {
                     <h1 className='text-5xl font-bold justify-self-center'>Sign Up</h1>
                 </div>
                 <div className='grid gap-4'>
-                    <input type="text" name="email" id="email" placeholder="Email" />
-                    <input type="password" name="password" id="password" placeholder="Password" />
+                    <input type="text" placeholder="Name" value={username} onChange={(event) => setUsername(event.target.value)} />
+                    <input type="email" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                    <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
                     <input type="submit" onClick={handleSignup} value="Signup" className='cursor-pointer' />
                 </div>
                 <p>Existing User? <Link to="/login" className='link'>Login!</Link></p>

@@ -1,24 +1,45 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { NotificationManager } from 'react-notifications';
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { userDetailsContext } from '../../state/UserDetailsProvider'
 import './login.css';
+
+let BASE_URL = "http://127.0.0.1:8000"
 
 
 export default function Login() {
 
     const navigate = useNavigate();
-    const {setIsAuthenticated, setUserDetails} = useContext(userDetailsContext);
+    const { setIsAuthenticated, setUserDetails } = useContext(userDetailsContext);
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     function handleLogin() {
-        console.log("Click")
-        // event.preventDefault();
-        // Login and store tokens
-        setIsAuthenticated(true);
-        setUserDetails({name: "Aravindhan A", credits: 200})
-        navigate("/files");
-        NotificationManager.success('Welcome Back Aravindhan!', 'Successful!', 5000);
-        // NotificationManager.warning('Username or Password is Incorrect!', 'Error!', 3000);
+
+
+        fetch(BASE_URL + '/api/v1/auth/token', {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `username=${email}&password=${password}`
+        })
+            .then(response => response.json().then(data => {
+                if(!response.ok) throw Error(data.detail.error)
+                localStorage.setItem('token', data.access_token)
+                setIsAuthenticated(true);
+                setUserDetails(data)
+                navigate("/files");
+                NotificationManager.success(`Welcome Back ${data.username}!`, 'Login Successful!', 5000);
+            })
+            )
+            .catch(error => {
+                console.log(error)
+                NotificationManager.error(String(error), "Failed", 3000);
+                return;
+            })
     }
 
     return (
@@ -33,8 +54,8 @@ export default function Login() {
                     <h1 className='text-5xl font-bold justify-self-center'>Login</h1>
                 </div>
                 <div className='grid gap-4'>
-                    <input type="text" name="email" id="email" placeholder="Email" />
-                    <input type="password" name="password" id="password" placeholder="Password" />
+                    <input type="text" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                    <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
                     <input type="submit" onClick={handleLogin} value="Login" className='cursor-pointer' />
                 </div>
                 <div>

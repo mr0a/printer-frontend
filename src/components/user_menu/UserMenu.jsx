@@ -21,6 +21,7 @@ export default function UserMenu({ username, credits = 0 }) {
     function handleLogout() {
         setUserDetails({})
         setIsAuthenticated(false)
+        localStorage.clear();
         navigate('/login');
         NotificationManager.success("Logged Out Successfully!", "Success", 5000)
     }
