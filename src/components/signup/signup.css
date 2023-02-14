@@ -1,0 +1,26 @@
+
+.signup {
+    max-width: 40rem;
+    max-height: 40rem;
+    padding: 5rem 7rem;
+    background-color: #F8EFD9;
+    box-shadow: 1rem 1rem #D9D9D9;
+}
+
+input{
+    border: 3px solid black;
+    width: 18rem;
+    height: 3rem;
+    text-align: center;
+}
+
+input[type="submit"]{
+    background-color: #A2D2FF;
+    border-width: 2px;
+}
+
+.link {
+    text-decoration: underline;
+    text-decoration-color: #59a4eb;
+    color: black;
+}
