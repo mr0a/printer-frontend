@@ -16,7 +16,7 @@ function Navbar() {
         return (
             <nav>
                 <div className="grid grid-cols-3 justify-items-center items-center">
-                    <img src="./logo.png" alt="Easyq Logo" className="logo justify-self-start"></img>
+                    <img src="/logo.png" alt="Easyq Logo" className="logo justify-self-start"></img>
                     <div className='grid gap-6 grid-cols-4 grid-rows-1 nav-menu justify-items-center'>
                         <p>Home</p>
                         <p>Features</p>
@@ -37,7 +37,7 @@ function Navbar() {
     return (
         <nav>
             <div className="grid grid-cols-2 justify-items-center items-center">
-                <img src="./logo.png" alt="Easyq Logo" className="logo justify-self-start"></img>
+                <img src="/logo.png" alt="Easyq Logo" className="logo justify-self-start"></img>
                 <div className='grid grid-cols-3 grid-rows-1 nav-menu justify-items-center items-center'>
                     <Link to="/files">
                         Files
@@ -46,12 +46,9 @@ function Navbar() {
                         Orders
                     </Link>
                     <div className='justify-self-end'>
-                        {/* <p className='sign-up-btn border-solid border-2 rounded-lg'>{userDetails.name}</p> */}
-                        <UserMenu username={userDetails.name} credits={userDetails.credits} />
+                        <UserMenu className="" username={userDetails.name} credits={userDetails.credits} />
                     </div>
                 </div>
-                {/* <Link to="/signup"> */}
-                {/* </Link> */}
             </div>
 
         </nav>

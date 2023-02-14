@@ -1,7 +1,19 @@
 import './header.css'
 import { Link } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { userDetailsContext } from '../../state/UserDetailsProvider'
+import { useNavigate } from 'react-router-dom'
 
 export default function Header() {
+
+    const { isAuthenticated } = useContext(userDetailsContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuthenticated){
+            navigate('/files');
+        }
+    })
 
     return (
         <header className="mt-12">

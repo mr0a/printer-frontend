@@ -4,11 +4,9 @@ import Navbar from "./components/navbar/navbar";
 
 export default function Root(){
     return (
-        <div>
+        <div className="h-full">
             <Navbar />
-            <div>
-                <Outlet />
-            </div>
+            <Outlet />
         </div>
     )
 }

@@ -79,7 +79,7 @@ export default function UserMenu({ username, credits = 0 }) {
                         </Menu.Item>
                     </div>
                     <div className="py-1">
-                        <Menu.Item>
+                        <Menu.Item onClick={handleLogout}>
                             {({ active }) => (
                                 <a
                                     href="#"
@@ -90,7 +90,7 @@ export default function UserMenu({ username, credits = 0 }) {
                                 >
                                     <div>
                                         <ArrowLeftOnRectangleIcon className='w-6 h-6 inline' />
-                                        <p className='inline mx-3' onClick={handleLogout}>Logout</p>
+                                        <p className='inline mx-3'>Logout</p>
                                     </div>
                                 </a>
                             )}

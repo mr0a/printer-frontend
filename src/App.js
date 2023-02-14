@@ -7,13 +7,15 @@ import Login from './components/login/login';
 import Signup from './components/signup/signup';
 import UserFiles from './components/user_files/UserFiles';
 import UserDetailsProvider from './state/UserDetailsProvider';
-import List from './components/list_order/list.jsx';
+import List from './components/order/list.jsx';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import CartProvider from './state/cartProvider';
+import NewOrderCheckout from './components/order/create_order';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/orders",
         element: <List />
+      },
+      {
+        path: "/orders/new",
+        element: <NewOrderCheckout />
       }
     ],
   },
@@ -50,7 +56,9 @@ function App() {
     <div className='App'>
       <React.StrictMode>
         <UserDetailsProvider>
-          <RouterProvider router={router} />
+          <CartProvider>
+            <RouterProvider router={router} />
+          </CartProvider>
         </UserDetailsProvider>
       </React.StrictMode>
       <NotificationContainer />
