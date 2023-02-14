@@ -1,18 +1,24 @@
 import { Link, useNavigate } from 'react-router-dom';
-import './login.css';
 import { NotificationManager } from 'react-notifications';
+import { useContext } from 'react'
+import { userDetailsContext } from '../../state/UserDetailsProvider'
+import './login.css';
 
 
 export default function Login() {
 
     const navigate = useNavigate();
+    const {setIsAuthenticated, setUserDetails} = useContext(userDetailsContext);
 
     function handleLogin() {
         console.log("Click")
         // event.preventDefault();
         // Login and store tokens
-        navigate("/dashboard");
+        setIsAuthenticated(true);
+        setUserDetails({name: "Aravindhan A", credits: 200})
+        navigate("/files");
         NotificationManager.success('Welcome Back Aravindhan!', 'Successful!', 5000);
+        // NotificationManager.warning('Username or Password is Incorrect!', 'Error!', 3000);
     }
 
     return (

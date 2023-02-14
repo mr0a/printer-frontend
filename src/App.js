@@ -5,6 +5,8 @@ import Header from './components/header/Header';
 import Root from './Root';
 import Login from './components/login/login';
 import Signup from './components/signup/signup';
+import UserFiles from './components/user_files/UserFiles';
+import UserDetailsProvider from './state/UserDetailsProvider';
 
 import {
   createBrowserRouter,
@@ -22,7 +24,11 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Header />,
-      }
+      },
+      {
+        path: "/files",
+        element: <UserFiles />
+      },
     ],
   },
   {
@@ -32,14 +38,16 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />
-  }
+  },
 ]);
 
 function App() {
   return (
     <div className='App'>
       <React.StrictMode>
-        <RouterProvider router={router} />
+        <UserDetailsProvider>
+          <RouterProvider router={router} />
+        </UserDetailsProvider>
       </React.StrictMode>
       <NotificationContainer />
     </div>
