@@ -1,6 +1,7 @@
 import React from "react";
 import "./listorder.css";
-import List from "./list";
+
+
 const Orders = ({ id, date, price, status }) => {
   return (
     <div className="orders">
