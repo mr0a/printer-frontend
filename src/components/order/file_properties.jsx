@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Listbox, Transition } from '@headlessui/react'
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { cartContext } from '../../state/cartProvider'
 
@@ -10,12 +10,10 @@ function classNames(...classes) {
 }
 
 
-function SizeSelector({ sizes = ['A3', 'A4', 'A5'] }) {
-
-    const [selected, setSelected] = useState(sizes[1])
+function SizeSelector({ sizes = ['A3', 'A4', 'A5'], selected, onChange }) {
 
     return (
-        <Listbox value={selected} onChange={setSelected}>
+        <Listbox value={selected} onChange={onChange}>
             {({ open }) => (
                 <div>
                     <Listbox.Label className="block text-sm font-medium text-gray-700">Select Sheet Size</Listbox.Label>
@@ -77,23 +75,44 @@ function SizeSelector({ sizes = ['A3', 'A4', 'A5'] }) {
 function FilePrintProperties({ file_id }) {
 
     const {files} = useContext(cartContext);
+    const {config, setConfig} = useContext(cartContext);
+
     let file = files.find(file => file.id === file_id)
 
     const [copies, setCopies] = useState(1);
     const [pages, setPages] = useState(file.page_count);
     const [price, setPrice] = useState(pages*copies);
+    const [sheetSize, setSheetSize] = useState("A4")
 
     function handleChange(event) {
         let copy_count = event.target.value
         setCopies(copy_count);
         setPrice(pages * copy_count)
+        console.log(config)
     }
+
+    useEffect(() => {
+        let file_config = {
+            file_id: file_id,
+            pages: pages,
+            copies: copies,
+            price: price,
+            sheetSize: sheetSize
+        }
+        let updatedConfig = {...config};
+        updatedConfig[file_id] = file_config;
+        setConfig(updatedConfig)
+    }, [price, sheetSize, copies, pages])
+
+    useEffect(() => {
+        console.log(config)
+    }, [config])
 
     return (
         <div className='grid grid-cols-5 justify-items-center items-center font-bold p-3 text-lg border-b-2'>
             <p>{file.file_name}</p>
             <input className="border rounded w-32" type="number" value={copies} min={1} onChange={handleChange} />
-            <SizeSelector sizes={['A3', 'A4', 'A5']} />
+            <SizeSelector sizes={['A3', 'A4', 'A5']} onChange={setSheetSize} selected={sheetSize} />
             <input disabled className="border rounded w-32" type="number" min={1} value={pages} />
             <input disabled className="border rounded w-32" type="number" min={1} value={price} />
         </div>

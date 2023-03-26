@@ -1,28 +1,36 @@
+import { useEffect, useState } from "react";
 import React from "react-dom";
 import "./listorder.css";
 import Orders from "./orders";
 function List() {
-    const id = ['AG0001', 'AG0002', 'AG0003'];
-    const cost = [50,30,5];
-    const status = ["Completed", "Pending"];
-  const current = new Date();
-  var monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sept",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const date = `${current.getDate()} ${
-    monthNames[current.getMonth()]
-  }, ${current.getFullYear()}`;
+
+  const [orders, setOrders] = useState([])
+  let BASE_URL = "http://127.0.0.1:8000";
+
+  let orderComponents = Array.from(orders).map((order, index) => {
+    console.log("Hello")
+    return <Orders key={index} id={order.id} date={order.created_at} price={order.total_amount} status={order.status}></Orders>
+  })
+
+  useEffect(() => {
+    fetch(BASE_URL + '/api/v1/order/', {
+      method: "GET",
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token") || ''
+      },
+    }).then(response => response.json().then(data => {
+      setOrders(data);
+      console.log(data)
+    }))
+
+    console.log("Orders from useeffect", orders)
+    console.log("Order comps", orderComponents)
+  }, [])
+  
+
 
   return (
     <div className="list">
@@ -35,10 +43,7 @@ function List() {
         </div>
       </b>
       <div>
-        <Orders id={id[0]} date={date} price={cost[0]} status={status[0]}></Orders>
-        <Orders id={id[1]} date={date} price={cost[1]} status={status[1]}></Orders>
-        <Orders id={id[2]} date={date} price={cost[2]} status={status[1]}></Orders>
-
+        {orderComponents}
       </div>
     </div>
   );

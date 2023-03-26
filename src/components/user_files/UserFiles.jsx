@@ -20,11 +20,11 @@ export default function UserFiles() {
     function uploadFile(file) {
         var reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = function () {
+        reader.onload = async function () {
             let fileText = reader.result;
-            let data = {file: fileText, file_name: file.name}
+            let data = {file: fileText, file_name: file.name, size: file.size}
 
-            fetch(BASE_URL + '/api/v1/file', {
+            let request = await fetch(BASE_URL + '/api/v1/file', {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -66,11 +66,17 @@ export default function UserFiles() {
         console.log(newFiles)
         for (let index = 0; index < newFiles.length; index++) {
             const file = newFiles[index];
-            uploadFile(file);
+            try{
+                uploadFile(file);
+            }catch(error){
+                NotificationManager.error("Upload failed", "File Upload is Failed", 2000)
+            }
         }
-        updateFiles();
         setFileUploaded(true);
-        NotificationManager.success(`${newFiles.length} file${newFiles.length > 1 ? 's' : ''} has been uploaded!`, 'Upload Successfull', 2000)
+        NotificationManager.success(`${newFiles.length} file${newFiles.length > 1 ? 's' : ''} has been uploaded!`, 'Upload Successfull', 2000);
+        setTimeout(() => {
+            updateFiles();
+        }, 1000)
     }
 
     const handleChange = function (e) {

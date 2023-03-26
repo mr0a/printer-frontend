@@ -13,14 +13,12 @@ export default function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    function handleSignup() {
+    function handleSignup(event) {
+        event.preventDefault();
 
         let userData = {
             username, email, password
         };
-
-        console.log(userData)
-
         fetch(BASE_URL + '/api/v1/auth/user', {
             method: 'POST',
             headers: {
@@ -34,6 +32,8 @@ export default function Signup() {
                 if (response.ok) {
                     NotificationManager.success('Welcome to Easyq! Now you can login', 'Successful!', 3000);
                     navigate("/login");
+                }else{
+                    NotificationManager.error(data.detail, 3000);
                 }
             }))
             .catch(error => {
@@ -56,12 +56,14 @@ export default function Signup() {
                     </Link>
                     <h1 className='text-5xl font-bold justify-self-center'>Sign Up</h1>
                 </div>
-                <div className='grid gap-4'>
-                    <input type="text" placeholder="Name" value={username} onChange={(event) => setUsername(event.target.value)} />
-                    <input type="email" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
-                    <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
-                    <input type="submit" onClick={handleSignup} value="Signup" className='cursor-pointer' />
-                </div>
+                <form action="/signup" onSubmit={handleSignup}>
+                    <div className='grid gap-4'>
+                        <input type="text" placeholder="Name" value={username} onChange={(event) => setUsername(event.target.value)} />
+                        <input type="email" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                        <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                        <input type="submit" onClick={handleSignup} value="Signup" className='cursor-pointer' />
+                    </div>
+                </form>
                 <p>Existing User? <Link to="/login" className='link'>Login!</Link></p>
             </div>
         </div>

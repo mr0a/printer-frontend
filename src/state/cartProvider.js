@@ -8,9 +8,10 @@ const CartProvider = (props) => {
 
     const [cart, setCart] = useState([]);
     const [files, setFiles] = useState([]);
+    const [config, setConfig] = useState({});
 
     return (
-        <cartContext.Provider value={{cart, setCart, files, setFiles}}>
+        <cartContext.Provider value={{cart, setCart, files, setFiles, config, setConfig}}>
             {props.children}
         </cartContext.Provider>
     );

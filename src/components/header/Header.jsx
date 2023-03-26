@@ -16,7 +16,7 @@ export default function Header() {
     })
 
     return (
-        <header className="mt-12">
+        <header className="mt-5">
             <div className="grid grid-cols-2 header-box items-center">
                 <div className='ml-20 text-white'>
                     <h2 className='text-6xl mb-7 max-w-xl leading-snug'>Why wait in queue while you can print in a easy way!?</h2>

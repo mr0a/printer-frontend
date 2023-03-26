@@ -14,8 +14,8 @@ export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    function handleLogin() {
-
+    function handleLogin(event) {
+        event.preventDefault();
 
         fetch(BASE_URL + '/api/v1/auth/token', {
             method: "POST",
@@ -53,11 +53,13 @@ export default function Login() {
                     </Link>
                     <h1 className='text-5xl font-bold justify-self-center'>Login</h1>
                 </div>
-                <div className='grid gap-4'>
-                    <input type="text" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
-                    <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
-                    <input type="submit" onClick={handleLogin} value="Login" className='cursor-pointer' />
-                </div>
+                    <form action="/login" onSubmit={handleLogin}>
+                        <div className='grid gap-4'>
+                            <input type="text" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                            <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                            <input type="submit" onClick={handleLogin} value="Login" className='cursor-pointer' />
+                        </div>
+                    </form>
                 <div>
                     <Link to="/reset-password" className='link'>Forgot Password?</Link>
                     <p>New User? <Link to="/signup" className='link'>Sign Up!</Link></p>

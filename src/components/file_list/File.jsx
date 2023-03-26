@@ -3,9 +3,10 @@ import { useState, useRef, useEffect } from "react"
 function File({ file, selectedFiles, setSelectedFiles }) {
     console.log(selectedFiles)
     // console.log(selectedFiles.includes(file.name), file)
-    const [selected, setSelected] = useState(selectedFiles.includes(file.name) ? true : false);
+    const [selected, setSelected] = useState(selectedFiles.includes(file.id) ? true : false);
 
     const elementRef = useRef(null);
+    
 
     function handleSelect(event) {
         console.log(elementRef.current)
@@ -30,7 +31,7 @@ function File({ file, selectedFiles, setSelectedFiles }) {
             elementRef.current.classList.remove('selected')
         }
     }, [selected])
-    file.size = (file.file.length * (3/4)) - 2
+    // file.size = file.size / 1000;
     let fileSize = file.size > 999999 ? 'MB' : 'KB'
     let numSize = file.size > 999999 ? file.size / 1000000 : file.size / 1000
 
@@ -41,7 +42,7 @@ function File({ file, selectedFiles, setSelectedFiles }) {
         //     <p>{numSize} {fileSize}</p>
         // </li>
         <li ref={elementRef} className="border-b-2 grid grid-cols-4 justify-items-center p-3 hover:bg-sky-50" key={file.id} onClick={handleSelect}>
-            <p>{file?.file_name}</p>
+            <p>{file?.file_name.slice(0, 30)}</p>
             <p>{file?.page_count}</p>
             <p>{file?.created_at}</p>
             <p>{numSize} {fileSize}</p>

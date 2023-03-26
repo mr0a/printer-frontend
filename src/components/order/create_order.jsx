@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { cartContext } from "../../state/cartProvider";
 import { userDetailsContext } from '../../state/UserDetailsProvider'
 import { useNavigate } from "react-router-dom";
+import { NotificationManager } from 'react-notifications';
 import FilePrintProperties from "./file_properties";
 
 import { Fragment, useState } from 'react'
@@ -29,8 +30,14 @@ function classNames(...classes) {
 function SelectRepo() {
 
     let reprographies = ['Auto (Based of queue)', 'AS-Repro', 'AG-Repro', 'Mech-Repro', 'Office-Repro']
+    let { config, setConfig } = useContext(cartContext);
 
     const [selected, setSelected] = useState(reprographies[0])
+
+    useEffect(() => {
+        setConfig({ ...config, "repro": selected })
+        console.log(config)
+    }, [selected])
 
     return (
         <Listbox value={selected} onChange={setSelected}>
@@ -104,7 +111,8 @@ function SelectRepo() {
 
 function NewOrderCheckout() {
 
-    const { cart } = useContext(cartContext);
+    const { cart, files } = useContext(cartContext);
+    const { config } = useContext(cartContext);
     const { userDetails } = useContext(userDetailsContext);
     const [useCredits, setUseCredits] = useState(userDetails.credits !== 0);
     const navigate = useNavigate();
@@ -119,8 +127,42 @@ function NewOrderCheckout() {
 
     let filePropertiesSelector = cart.map(id => <FilePrintProperties key={id} file_id={id} />)
 
-    function handleContinue(){
-        navigate('/orders')
+    function handleContinue() {
+        let BASE_URL = "http://127.0.0.1:8000";
+
+        // let totalAmount = Array.from(files).reduce((file) => file.price, 0)
+        // console.log(totalAmount);
+
+        console.log(config)
+        let data = {
+            repro: config["repro"] || "Auto",
+            payment_method: "CASH"
+        }
+        delete config["repro"];
+        let files = Object.values(config);
+        console.log(files);
+        let total_amount = files.reduce((count, file) => count + file.price, 0);
+        data["files"] = files;
+        data["total_amount"] = total_amount;
+        function createOrder() {
+            fetch(BASE_URL + '/api/v1/order/', {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("token") || '',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(response => response.json().then(data => {
+                if(response.status == 200){
+                    NotificationManager.success(`Success`, 'Order has been submitted Successfully!', 5000);
+                    console.log(data)
+                    navigate('/orders');
+                }
+            }))
+        }
+        createOrder();
     }
 
 
